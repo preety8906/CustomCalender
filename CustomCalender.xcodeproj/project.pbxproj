@@ -10,10 +10,12 @@
 		3E646B8A1B05EF2A003F3311 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E646B891B05EF2A003F3311 /* main.m */; };
 		3E646B8D1B05EF2A003F3311 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E646B8C1B05EF2A003F3311 /* AppDelegate.m */; };
 		3E646B901B05EF2A003F3311 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E646B8F1B05EF2A003F3311 /* ViewController.m */; };
-		3E646B931B05EF2A003F3311 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E646B911B05EF2A003F3311 /* Main.storyboard */; };
 		3E646B951B05EF2A003F3311 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E646B941B05EF2A003F3311 /* Images.xcassets */; };
 		3E646B981B05EF2A003F3311 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E646B961B05EF2A003F3311 /* LaunchScreen.xib */; };
 		3E646BA41B05EF2A003F3311 /* CustomCalenderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E646BA31B05EF2A003F3311 /* CustomCalenderTests.m */; };
+		3E646BAE1B05EF94003F3311 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E646BAD1B05EF94003F3311 /* ViewController.xib */; };
+		3EACA0BB1B098D05002FB55B /* DayButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EACA0BA1B098D05002FB55B /* DayButtonCell.m */; };
+		3EACA0BD1B098D14002FB55B /* DayButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EACA0BC1B098D14002FB55B /* DayButtonCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3E3FE1DE1B0AD48100AECF89 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		3E646B841B05EF2A003F3311 /* CustomCalender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomCalender.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E646B881B05EF2A003F3311 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3E646B891B05EF2A003F3311 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -34,12 +37,15 @@
 		3E646B8C1B05EF2A003F3311 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		3E646B8E1B05EF2A003F3311 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		3E646B8F1B05EF2A003F3311 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		3E646B921B05EF2A003F3311 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3E646B941B05EF2A003F3311 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3E646B971B05EF2A003F3311 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		3E646B9D1B05EF2A003F3311 /* CustomCalenderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CustomCalenderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E646BA21B05EF2A003F3311 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3E646BA31B05EF2A003F3311 /* CustomCalenderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomCalenderTests.m; sourceTree = "<group>"; };
+		3E646BAD1B05EF94003F3311 /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
+		3EACA0B91B098D05002FB55B /* DayButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DayButtonCell.h; sourceTree = "<group>"; };
+		3EACA0BA1B098D05002FB55B /* DayButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DayButtonCell.m; sourceTree = "<group>"; };
+		3EACA0BC1B098D14002FB55B /* DayButtonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DayButtonCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,11 +87,13 @@
 		3E646B861B05EF2A003F3311 /* CustomCalender */ = {
 			isa = PBXGroup;
 			children = (
+				3EACA0B81B098CBE002FB55B /* CustomViews */,
 				3E646B8B1B05EF2A003F3311 /* AppDelegate.h */,
 				3E646B8C1B05EF2A003F3311 /* AppDelegate.m */,
 				3E646B8E1B05EF2A003F3311 /* ViewController.h */,
 				3E646B8F1B05EF2A003F3311 /* ViewController.m */,
-				3E646B911B05EF2A003F3311 /* Main.storyboard */,
+				3E646BAD1B05EF94003F3311 /* ViewController.xib */,
+				3E3FE1DE1B0AD48100AECF89 /* Constants.h */,
 				3E646B941B05EF2A003F3311 /* Images.xcassets */,
 				3E646B961B05EF2A003F3311 /* LaunchScreen.xib */,
 				3E646B871B05EF2A003F3311 /* Supporting Files */,
@@ -117,6 +125,16 @@
 				3E646BA21B05EF2A003F3311 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3EACA0B81B098CBE002FB55B /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				3EACA0B91B098D05002FB55B /* DayButtonCell.h */,
+				3EACA0BA1B098D05002FB55B /* DayButtonCell.m */,
+				3EACA0BC1B098D14002FB55B /* DayButtonCell.xib */,
+			);
+			path = CustomViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -199,8 +217,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3E646B931B05EF2A003F3311 /* Main.storyboard in Resources */,
+				3EACA0BD1B098D14002FB55B /* DayButtonCell.xib in Resources */,
 				3E646B981B05EF2A003F3311 /* LaunchScreen.xib in Resources */,
+				3E646BAE1B05EF94003F3311 /* ViewController.xib in Resources */,
 				3E646B951B05EF2A003F3311 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -219,6 +238,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EACA0BB1B098D05002FB55B /* DayButtonCell.m in Sources */,
 				3E646B901B05EF2A003F3311 /* ViewController.m in Sources */,
 				3E646B8D1B05EF2A003F3311 /* AppDelegate.m in Sources */,
 				3E646B8A1B05EF2A003F3311 /* main.m in Sources */,
@@ -244,14 +264,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		3E646B911B05EF2A003F3311 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3E646B921B05EF2A003F3311 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		3E646B961B05EF2A003F3311 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -297,6 +309,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IBSC_FLATTEN_NIBS = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -333,6 +346,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IBSC_FLATTEN_NIBS = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
@@ -348,6 +362,7 @@
 				INFOPLIST_FILE = CustomCalender/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -358,6 +373,7 @@
 				INFOPLIST_FILE = CustomCalender/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -414,6 +430,7 @@
 				3E646BA91B05EF2A003F3311 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3E646BAA1B05EF2A003F3311 /* Build configuration list for PBXNativeTarget "CustomCalenderTests" */ = {
 			isa = XCConfigurationList;
@@ -422,6 +439,7 @@
 				3E646BAC1B05EF2A003F3311 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
