@@ -29,13 +29,13 @@
 // Form actual grid to show calender of a specified month and specified number of days
 - (UIView *) prepareCalenderViewForMonth:(int) month year:(int) year startDay:(int) startDay andTotalDays:(int) totalDays
 {
-    float viewWidth = 7 * DAY_CELL_WIDTH;
+    float viewWidth = 7 * DAY_CELL_WIDTH;   // a week has 7 days so multiply by 7
     float viewX = (self.view.frame.size.width - viewWidth)/2;
     UIView *newMonthView = [[UIView alloc] initWithFrame: CGRectMake(viewX, 0, viewWidth, self.calenderView.frame.size.height)];
     
     float x = 0.0;
     float y = 0.0;
-    int currentDay = 1;
+    int currentDay = 1; // start week from Sunday (=1)
     
     NSCalendar *gregorian = [NSCalendar currentCalendar];
     // add month name
@@ -93,11 +93,12 @@
         
         [newMonthView addSubview: dayCell];
         
+        // increment x to place next tile for next date
         x+= DAY_CELL_WIDTH;
         
         if (x >= (7*DAY_CELL_WIDTH))
         {
-            // one row is full. move to next row
+            // one row is full. move to next row and reset x to 0
             x = 0;
             y += DAY_CELL_HEIGHT;
         }
@@ -119,6 +120,7 @@
     int previousYear = [[self.currentMonthDetails objectForKey: KEY_YEAR] intValue];
     if (previousMonth < 1)
     {
+        // if current month is Jan (=1) then previous month will be Dec(=12) of previous year.
         previousMonth = 12;
         previousYear  = previousYear - 1;
     }
@@ -139,6 +141,7 @@
     int nextYear = [[self.currentMonthDetails objectForKey: KEY_YEAR] intValue];
     if (nextMonth > 12)
     {
+        // if current month is Dec (=12) then next month will be Jan (=1) of next year.
         nextMonth = 1;
         nextYear  = nextYear + 1;
     }
@@ -226,15 +229,8 @@
 
 #pragma mark - ScrollView delegate
 
-//-(void) scrollViewDidScroll:(UIScrollView *)scrollView
-//{
-//    NSLog(@"Scrollview did scroll");
-//}
-
 -(void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    NSLog(@"Scrollview did end decelerating");
-    
     CGPoint contentOffset = scrollView.contentOffset;
     float selfWidth     = self.view.frame.size.width;
         
@@ -307,8 +303,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    
-    NSLog(@"in view did load");
 }
 
 -(void) viewWillAppear:(BOOL)animated
@@ -317,17 +311,21 @@
     
     // Set contentSize of scrollView
     CGRect calenderFrame = self.calenderView.frame;
+    
+    // multiply by 3 as only 3 views are taken to manage the calender scroll view
     float width = 3 * (calenderFrame.size.width);
     
     [self.calenderView setContentSize: CGSizeMake(width, self.calenderView.frame.size.height)];
     [self.calenderView scrollRectToVisible: CGRectMake(self.view.frame.size.width, calenderFrame.origin.y, calenderFrame.size.width, calenderFrame.size.height) animated: NO];
     self.currentPoint = self.calenderView.contentOffset;
     
+    // by default, load current, previous and next months
     [self resetToCurrentDate];
 }
 
 #pragma mark - UIButton action
 
+// method to reset the calender to current month
 -(IBAction) resetCalender:(id)sender
 {
     [self resetToCurrentDate];
