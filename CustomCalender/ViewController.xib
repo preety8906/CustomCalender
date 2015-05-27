@@ -35,7 +35,7 @@
                         <action selector="resetCalender:" destination="-1" eventType="touchUpInside" id="OMS-x2-NpU"/>
                     </connections>
                 </button>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" id="CSg-h9-z8Z">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="CSg-h9-z8Z">
                     <rect key="frame" x="0.0" y="68" width="414" height="390"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

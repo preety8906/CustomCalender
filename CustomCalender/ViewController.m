@@ -36,17 +36,50 @@
 @property (nonatomic, strong) UIView    *currentView;
 @property (nonatomic, strong) UIView    *nextView;
 @property (nonatomic, assign) CGPoint   currentPoint;
-@property (nonatomic, strong) NSDictionary *previousMonthDetails;
-@property (nonatomic, strong) NSDictionary *currentMonthDetails;
-@property (nonatomic, strong) NSDictionary *nextMonthDetails;
+@property (nonatomic, strong) NSMutableDictionary *previousMonthDetails;
+@property (nonatomic, strong) NSMutableDictionary *currentMonthDetails;
+@property (nonatomic, strong) NSMutableDictionary *nextMonthDetails;
+@property (nonatomic, strong) NSDate    *todayDate;
 
 @end
 
 @implementation ViewController (Private)
 
-// Form actual grid to show calender of a specified month and specified number of days
-- (UIView *) prepareCalenderViewForMonth:(int) month year:(int) year startDay:(int) startDay andTotalDays:(int) totalDays
+// check if today
+-(BOOL) isDayToday:(int) day month:(int) month andYear:(int) year
 {
+    BOOL isToday = NO;
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyy";
+    NSString *yearString = [formatter stringFromDate: self.todayDate];
+    int todayYear = yearString.intValue;
+    formatter.dateFormat = @"MM";
+    NSString *monthString = [formatter stringFromDate: self.todayDate];
+    int todayMonth = monthString.intValue;
+    formatter.dateFormat = @"dd";
+    NSString *dateString = [formatter stringFromDate: self.todayDate];
+    int todayDay = dateString.intValue;
+    
+    if (todayDay == day && todayMonth == month && todayYear == year)
+    {
+        isToday = YES;
+    }
+    
+    return isToday;
+}
+
+// Form actual grid to show calender of a specified month and specified number of days
+-(UIView *) prepareCalenderViewWithMonthDict: (NSDictionary *) monthDict
+{
+    int month       = (int)[[monthDict objectForKey: KEY_MONTH] intValue];
+    int year        = (int)[[monthDict objectForKey: KEY_YEAR] intValue];
+    int startDay    = (int)[[monthDict objectForKey: KEY_START_DAY] intValue];
+    int totalDays   = (int)[[monthDict objectForKey: KEY_TOTAL_DAYS] intValue];
+    int preMonthTotalDays   = (int)[[monthDict objectForKey: KEY_PREVIOUS_TOTAL_DAYS] intValue];
+    
+    self.todayDate = [NSDate date];
+    
     float viewWidth = 7 * DAY_CELL_WIDTH;   // a week has 7 days so multiply by 7
     float viewX = (self.view.frame.size.width - viewWidth)/2;
     UIView *newMonthView = [[UIView alloc] initWithFrame: CGRectMake(viewX, 0, viewWidth, self.calenderView.frame.size.height)];
@@ -90,9 +123,31 @@
     
     if (startDay != currentDay)
     {
-        // if start day is not falling on sunday, move current day to start day and leave some empty spaces for first weekdays till start day is reached
+        // if start day is not falling on sunday, move current day to start day and fill the last dates of previous months for first weekdays till start day is reached
         
-        x = (startDay-currentDay) * DAY_CELL_WIDTH;
+        int datePointer = 1; // start from sunday (=1)
+        while (datePointer < startDay)
+        {
+            // Create day button cell
+            DayButtonCell *dayCell = (DayButtonCell *)[[[NSBundle mainBundle] loadNibNamed: XIB_DAY_BUTTON_CELL
+                                                                                     owner: self
+                                                                                   options: nil] objectAtIndex: kTypeDateCell];
+            
+            dayCell.preNextDateLabel.text   = [NSString stringWithFormat: @"%d", (preMonthTotalDays - startDay + datePointer + 1)];
+            dayCell.preNextDateLabel.hidden = NO;
+            dayCell.dateLabel.hidden        = YES;
+            
+            CGRect frame = dayCell.frame;
+            frame.origin.x = x;
+            frame.origin.y = y;
+            dayCell.frame  = frame;
+            
+            [newMonthView addSubview: dayCell];
+            
+            // increment x to place next tile for next date
+            x+= DAY_CELL_WIDTH;
+            datePointer++;
+        }
     }
     
     while (currentDay <= totalDays)
@@ -109,6 +164,11 @@
         frame.origin.y = y;
         dayCell.frame  = frame;
         
+        if ([self isDayToday: currentDay month: month andYear: year])
+        {
+            dayCell.backgroundView.backgroundColor = [UIColor greenColor];
+        }
+        
         [newMonthView addSubview: dayCell];
         
         // increment x to place next tile for next date
@@ -124,9 +184,31 @@
         currentDay++;
     }
     
-    CALayer *layer = newMonthView.layer;
-    layer.borderColor = [UIColor lightGrayColor].CGColor;
-    layer.borderWidth = 1.0f;
+    int nextMonthStartDate = 1;
+    
+    while (x != 0 && x < (7 * DAY_CELL_WIDTH))
+    {
+        // if end day is not falling on saturday, fill the last weekdays by next month start dates
+        
+        // Create day button cell
+        DayButtonCell *dayCell = (DayButtonCell *)[[[NSBundle mainBundle] loadNibNamed: XIB_DAY_BUTTON_CELL
+                                                                                 owner: self
+                                                                               options: nil] objectAtIndex: kTypeDateCell];
+                
+        dayCell.preNextDateLabel.text   = [NSString stringWithFormat: @"%d", nextMonthStartDate++];
+        dayCell.preNextDateLabel.hidden = NO;
+        dayCell.dateLabel.hidden        = YES;
+                
+        CGRect frame = dayCell.frame;
+        frame.origin.x = x;
+        frame.origin.y = y;
+        dayCell.frame  = frame;
+                
+        [newMonthView addSubview: dayCell];
+                
+        // increment x to place next tile for next date
+        x+= DAY_CELL_WIDTH;
+    }
     
     return newMonthView;
 }
@@ -136,18 +218,45 @@
 {
     int previousMonth = [[self.currentMonthDetails objectForKey: KEY_MONTH] intValue] - 1;
     int previousYear = [[self.currentMonthDetails objectForKey: KEY_YEAR] intValue];
+
     if (previousMonth < 1)
     {
         // if current month is Jan (=1) then previous month will be Dec(=12) of previous year.
         previousMonth = 12;
-        previousYear  = previousYear - 1;
+        previousYear--;
     }
+
+    // Calculate number of days of previous month of previous month
+    int prepreMonth   = previousMonth - 1;
+    int prepreYear    = previousYear;
+    if (prepreMonth < 1)
+    {
+        prepreMonth = 12;
+        prepreYear--;
+    }
+
+    NSCalendar *gregorian = [NSCalendar currentCalendar];
+    
+    // create NSDate of 1st day of current month to show the complete calender of current month
+    NSDateComponents *dateCom = [[NSDateComponents alloc] init];
+    dateCom.day = 1;
+    dateCom.month = prepreMonth;
+    dateCom.year = prepreYear;
+    
+    NSDate *startDate = [gregorian dateFromComponents: dateCom];
+    dateCom = [gregorian components: NSCalendarUnitWeekday fromDate: startDate];
+    
+    // get total number of days in a month
+    // do set month: dateCom.month = month;
+    NSRange range = [gregorian rangeOfUnit: NSCalendarUnitDay
+                                    inUnit: NSCalendarUnitMonth
+                                   forDate: startDate];
+    int preMonthTotalDays = (int)range.length;
     
     self.previousMonthDetails = [self getDetailsForMonth: previousMonth andYear: previousYear];
-    self.previousView = [self prepareCalenderViewForMonth: [[self.previousMonthDetails objectForKey: KEY_MONTH] intValue]
-                                                     year: previousYear
-                                                 startDay: [[self.previousMonthDetails objectForKey: KEY_START_DAY] intValue]
-                                             andTotalDays: [[self.previousMonthDetails objectForKey: KEY_TOTAL_DAYS] intValue]];
+    [self.previousMonthDetails setObject: [NSNumber numberWithInt: preMonthTotalDays] forKey: KEY_PREVIOUS_TOTAL_DAYS];
+
+    self.previousView = [self prepareCalenderViewWithMonthDict: self.previousMonthDetails];
 
     [self.calenderView addSubview: self.previousView];
 }
@@ -165,11 +274,10 @@
     }
     
     self.nextMonthDetails = [self getDetailsForMonth: nextMonth andYear: nextYear];
-    self.nextView = [self prepareCalenderViewForMonth: [[self.nextMonthDetails objectForKey: KEY_MONTH] intValue]
-                                                 year: nextYear
-                                             startDay: [[self.nextMonthDetails objectForKey: KEY_START_DAY] intValue]
-                                         andTotalDays: [[self.nextMonthDetails objectForKey: KEY_TOTAL_DAYS] intValue]];
-
+    [self.nextMonthDetails setObject: [self.currentMonthDetails objectForKey: KEY_TOTAL_DAYS] forKey: KEY_PREVIOUS_TOTAL_DAYS];
+    
+    self.nextView = [self prepareCalenderViewWithMonthDict: self.nextMonthDetails];
+    
     CGRect frame = self.nextView.frame;
     frame.origin.x = (self.view.frame.size.width)*2 + (self.view.frame.size.width - frame.size.width)/2;
     self.nextView.frame = frame;
@@ -201,10 +309,9 @@
     [self preparePreviousViewOfScrollView];
     
     // prepare current view
-    self.currentView = [self prepareCalenderViewForMonth: [[self.currentMonthDetails objectForKey: KEY_MONTH] intValue]
-                                                    year: year
-                                                startDay: [[self.currentMonthDetails objectForKey: KEY_START_DAY] intValue]
-                                            andTotalDays: [[self.currentMonthDetails objectForKey: KEY_TOTAL_DAYS] intValue]];
+    [self.currentMonthDetails setObject: [self.previousMonthDetails objectForKey: KEY_TOTAL_DAYS] forKey: KEY_PREVIOUS_TOTAL_DAYS];
+    self.currentView = [self prepareCalenderViewWithMonthDict: self.currentMonthDetails];
+    
     CGRect frame = self.currentView.frame;
     frame.origin.x = selfWidth + (selfWidth - frame.size.width)/2;
     self.currentView.frame = frame;
@@ -215,7 +322,7 @@
 }
 
 // get current month information
--(NSDictionary *) getDetailsForMonth: (int) month andYear: (int) year
+-(NSMutableDictionary *) getDetailsForMonth: (int) month andYear: (int) year
 {
     NSCalendar *gregorian = [NSCalendar currentCalendar];
     
@@ -238,7 +345,7 @@
                                    forDate: startDate];
     int totalDays = (int)range.length;
     
-    NSDictionary *monthDetailsDict = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt: month], KEY_MONTH,
+    NSMutableDictionary *monthDetailsDict = [NSMutableDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt: month], KEY_MONTH,
                                       [NSNumber numberWithInt: startDay], KEY_START_DAY,
                                       [NSNumber numberWithInt: totalDays], KEY_TOTAL_DAYS,
                                       [NSNumber numberWithInt: year], KEY_YEAR, nil];

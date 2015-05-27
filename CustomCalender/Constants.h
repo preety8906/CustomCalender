@@ -42,6 +42,8 @@ enum DayButtonCellType
 #define KEY_START_DAY               @"startDay"
 #define KEY_TOTAL_DAYS              @"totalDays"
 #define KEY_YEAR                    @"year"
+#define KEY_PREVIOUS_TOTAL_DAYS     @"previousMonthTotalDays"
+//#define KEY_PREVIOUS_YEAR           @"previousYear"
 
 #define FONT_NAME                   @"Helvetica-Bold"
 #define FONT_SIZE                   20.0f

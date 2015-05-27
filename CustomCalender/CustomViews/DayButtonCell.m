@@ -28,8 +28,10 @@
 
 @implementation DayButtonCell
 
+@synthesize backgroundView;
 @synthesize dateLabel;
 @synthesize dayName;
+@synthesize preNextDateLabel;
 
 /*
 // Only override drawRect: if you perform custom drawing.

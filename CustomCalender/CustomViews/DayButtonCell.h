@@ -28,7 +28,9 @@
 
 @interface DayButtonCell : UIView
 
+@property (weak, nonatomic) IBOutlet UIView  *backgroundView;
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dayName;
+@property (weak, nonatomic) IBOutlet UILabel *preNextDateLabel;
 
 @end
